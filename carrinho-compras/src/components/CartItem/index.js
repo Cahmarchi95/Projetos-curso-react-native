@@ -11,6 +11,10 @@ export default function CartItem({ data, addAmount, subAmount }) {
 
   function handleDecrease() {
     subAmount();
+    if (amount === 0) {
+      setAmount(0);
+      return;
+    }
     setAmount((item) => item - 1);
   }
 
