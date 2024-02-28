@@ -9,7 +9,7 @@ import {
 import React, {useState} from 'react';
 import firebase from '../../services/FirebaseConnection';
 
-export default function Login() {
+export default function Login({changeStatus}) {
   const [type, setType] = useState('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -26,7 +26,7 @@ export default function Login() {
         .auth()
         .signInWithEmailAndPassword(email, password)
         .then(user => {
-          console.log(user.user);
+          changeStatus(user.user.uid);
         })
         .catch(error => {
           console.log(error);
@@ -39,7 +39,7 @@ export default function Login() {
         .auth()
         .createUserWithEmailAndPassword(email, password)
         .then(user => {
-          console.log(user.user);
+          changeStatus(user.user.uid);
         })
         .catch(error => {
           console.log(error);
@@ -79,7 +79,7 @@ export default function Login() {
         onPress={() =>
           setType(type => (type === 'login' ? 'cadastrar' : 'login'))
         }>
-        <Text style={{textAlign: 'center'}}>
+        <Text style={{textAlign: 'center', fontSize: 17}}>
           {type === 'login' ? 'Criar uma conta' : 'Já possuo uma conta'}
         </Text>
       </TouchableOpacity>
@@ -102,6 +102,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderColor: '#141414',
+    fontSize: 20,
   },
   handleLogin: {
     alignItems: 'center',
