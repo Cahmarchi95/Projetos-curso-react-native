@@ -10,9 +10,9 @@ import {
   Keyboard,
 } from 'react-native';
 
+import Feather from 'react-native-vector-icons/Feather';
 import Login from './src/components/Login';
 import TaskList from './src/components/TaskList';
-
 import firebase from './src/services/FirebaseConnection';
 
 export default function App() {
@@ -121,12 +121,29 @@ export default function App() {
     inputRef.current.focus();
   }
 
+  function cancelEdit() {
+    setKey('');
+    setNewTask('');
+    Keyboard.dismiss();
+  }
+
   if (!user) {
     return <Login changeStatus={user => setUser(user)} />;
   }
 
   return (
     <SafeAreaView style={styles.container}>
+      {key.length > 0 && (
+        <View style={{flexDirection: 'row', marginBottom: 8}}>
+          <Text style={{color: '#FF0000', marginRight: 5}}>
+            Você está editando essa tarefa
+          </Text>
+          <TouchableOpacity onPress={cancelEdit}>
+            <Feather name="x-circle" size={20} color="#FF0000" />
+          </TouchableOpacity>
+        </View>
+      )}
+
       <View style={styles.containerTask}>
         <TextInput
           style={styles.input}
